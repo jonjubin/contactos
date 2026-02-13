@@ -77,15 +77,39 @@ async function performSearch() {
     // Using site: operator and dynamic positions
     const query = `site:linkedin.com/in "${company}" ${positionsQuery}`;
 
-    // Using a CORS proxy to bypass browser restrictions
-    // This is necessary because SerpAPI does not always return CORS headers for client-side requests
-    const baseUrl = 'https://serpapi.com/search.json';
-    const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(`${baseUrl}?engine=google&q=${encodeURIComponent(query)}&gl=${countryCode}&udm=14&filter=0&api_key=${apiKey}`);
+    // Determine where we are running
+    // If on Vercel (or any non-local server that supports out /api directory), use the internal API route
+    // If local file system (file://) or simple python server without /api support, use the proxy
 
-    console.log('Fetching:', proxyUrl); // Debugging
+    let isLocalFile = window.location.protocol === 'file:';
+    let apiUrl = '';
+
+    if (isLocalFile) {
+        // Fallback to proxy for local file testing
+        const baseUrl = 'https://serpapi.com/search.json';
+        apiUrl = 'https://corsproxy.io/?' + encodeURIComponent(`${baseUrl}?engine=google&q=${encodeURIComponent(query)}&gl=${countryCode}&udm=14&filter=0&api_key=${apiKey}`);
+    } else {
+        // Assume we are on a server (Vercel, etc). Try the API route first.
+        // We construct the URL for our own API
+        // Note: verify if we are on localhost with python server, api route won't exist there either.
+        // So we might need a check or try/catch.
+
+        // Let's try to fetch from /api/search first
+        apiUrl = `/api/search?q=${encodeURIComponent(query)}&gl=${countryCode}`;
+    }
+
+    console.log('Fetching:', apiUrl); // Debugging
 
     try {
-        const response = await fetch(proxyUrl);
+        let response = await fetch(apiUrl);
+
+        // If the API route 404s (e.g. running on python simple server), fallback to proxy
+        if (response.status === 404 && !isLocalFile) {
+            console.log('API route not found, falling back to proxy...');
+            const baseUrl = 'https://serpapi.com/search.json';
+            const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(`${baseUrl}?engine=google&q=${encodeURIComponent(query)}&gl=${countryCode}&udm=14&filter=0&api_key=${apiKey}`);
+            response = await fetch(proxyUrl);
+        }
 
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);
