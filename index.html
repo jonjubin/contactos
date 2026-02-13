@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Finder Premium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>AFG Next - Contact Finder</h1>
+
+    <div class="search-container">
+        <div class="input-group">
+            <label for="company">Nombre de la Empresa</label>
+            <input type="text" id="company" placeholder="Ej: Siemens, Google, Microsoft...">
+        </div>
+
+        <div class="input-group">
+            <label for="country">País</label>
+            <select id="country">
+                <option value="" disabled selected>Selecciona un país</option>
+                <!-- Filled via JS -->
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="positionGroup">Grupo de Posiciones</label>
+            <select id="positionGroup">
+                <option value="" disabled selected>Selecciona un grupo</option>
+                <!-- Filled via JS -->
+            </select>
+            <div id="positionDefinition" class="definition-text"></div>
+        </div>
+
+        <button id="searchBtn" onclick="performSearch()">
+            Buscar Contactos
+        </button>
+
+        <div id="queryDisplay" class="query-display"></div>
+    </div>
+
+    <div id="results" class="results-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Cargo</th>
+                    <th>Info Extra</th>
+                    <th>LinkedIn</th>
+                    <th>Link Mostrado</th>
+                </tr>
+            </thead>
+            <tbody id="resultsBody">
+                <!-- Filled via JS -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="countries.js"></script>
+    <script src="positions.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
