@@ -17,7 +17,10 @@
     <div class="search-container">
         <div class="input-group">
             <label for="company">Nombre de la Empresa</label>
-            <input type="text" id="company" placeholder="Ej: Siemens, Google, Microsoft...">
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <input type="text" id="company" placeholder="Ej: Siemens, Google, Microsoft..." style="flex: 1;">
+                <button id="correctBtn" class="secondary-btn" title="Corregir nombre con IA" style="padding: 8px 12px; font-size: 1.2rem; cursor: pointer;">✨</button>
+            </div>
         </div>
 
         <div class="input-group">
@@ -59,6 +62,18 @@
                 <!-- Filled via JS -->
             </tbody>
         </table>
+    </div>
+
+    <!-- Company Selection Modal -->
+    <div id="companyModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <h2 class="modal-title">Selecciona la empresa correcta</h2>
+            <p class="modal-subtitle">Se encontraron varias coincidencias:</p>
+            <div id="modalOptions" class="modal-options">
+                <!-- Filled via JS -->
+            </div>
+        </div>
     </div>
 
     <script src="countries.js"></script>
