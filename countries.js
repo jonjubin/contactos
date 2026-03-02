@@ -210,6 +210,12 @@ const countries = [
     "relevant": false
   },
   {
+    "location": "Turquia",
+    "gl": "tr",
+    "region": "EU",
+    "relevant": false
+  },
+  {
     "location": "Eslovaquia",
     "gl": "sk",
     "region": "EU",
@@ -306,5 +312,6 @@ const countries = [
     "relevant": false
   }
 ];
+
 
 
